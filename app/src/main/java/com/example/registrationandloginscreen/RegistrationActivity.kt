@@ -60,7 +60,7 @@ class RegistrationActivity : AppCompatActivity()  {
             } else if (!properPassword) {
                 Toast.makeText(this, "Password should contain at least 1 number, 1 uppercase and one lowercase character", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
-            } else if (binding.etRegPassword.text != binding.etRegConfirmPassword.text) {
+            } else if (binding.etRegPassword.text.toString().trim() != binding.etRegConfirmPassword.text.toString().trim()) {
                 Toast.makeText(this, "The two password fields should match", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
             } else {
@@ -74,11 +74,8 @@ class RegistrationActivity : AppCompatActivity()  {
                 Intent(this, LoginActivity::class.java).also{
                     startActivity(it)
                 }
-
             }
         }
     }
-
-
 }
 
