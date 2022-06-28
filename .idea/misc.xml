@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/activity_main.xml" value="0.3125" />
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/login_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/password_recovery_screen.xml" value="0.18958333333333333" />
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/registration_confirmation_screen.xml" value="0.18958333333333333" />
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/registration_screen.xml" value="0.5" />
+        <entry key="..\:/Users/fotis/AndroidStudioProjects/RegistrationandLoginScreen/app/src/main/res/layout/screen_main.xml" value="0.18958333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
