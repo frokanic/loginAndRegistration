@@ -17,9 +17,17 @@ class RegistrationActivity : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         binding = RegistrationScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //val dao = UsersDatabase.getInstance(this).UsersDao()
 
         binding.btnRegRegister.setOnClickListener {
+
+            var RegFirstName = binding.etRegFirstName.text
+            var RegLastName = binding.etRegLastName.text
+            var RegUsername = binding.etRegUsername.text
+            var RegEmail = binding.etRegEmail.text
+            var RegPassword = binding.etRegPassword.text
+            var RegConfirmPassword = binding.etRegConfirmPassword.text
+
+            //Checks if the password has at least 1 number, 1 uppercase & 1 lowercase letter
             var lowCaseLetter = false
             var uppCaseLetter = false
             var number = false
@@ -33,26 +41,26 @@ class RegistrationActivity : AppCompatActivity()  {
             }
 
             fun clearPasswordFields() {
-                binding.etRegPassword.text.clear()
-                binding.etRegConfirmPassword.text.clear()
+                RegPassword.clear()
+                RegConfirmPassword.clear()
             }
 
             fun clearAllFields() {
-                binding.etRegPassword.text.clear()
-                binding.etRegEmail.text.clear()
-                binding.etRegConfirmPassword.text.clear()
-                binding.etRegUsername.text.clear()
-                binding.etRegFirstName.text.clear()
-                binding.etRegLastName.text.clear()
+                RegPassword.clear()
+                RegEmail.clear()
+                RegConfirmPassword.clear()
+                RegUsername.clear()
+                RegFirstName.clear()
+                RegLastName.clear()
             }
 
             val properPassword = lowCaseLetter && uppCaseLetter && number
-            val emptyFields = (binding.etRegPassword.text.toString() == "" ||
-                    binding.etRegEmail.text.toString() == "" ||
-                    binding.etRegConfirmPassword.text.toString() == "" ||
-                    binding.etRegUsername.text.toString() == "" ||
-                    binding.etRegFirstName.text.toString() == "" ||
-                    binding.etRegLastName.text.toString() == "")
+            val emptyFields = (RegPassword.toString() == "" ||
+                    RegEmail.toString() == "" ||
+                    RegConfirmPassword.toString() == "" ||
+                    RegUsername.toString() == "" ||
+                    RegFirstName.toString() == "" ||
+                    RegLastName.toString() == "")
 
 
             if (emptyFields) {
@@ -60,15 +68,16 @@ class RegistrationActivity : AppCompatActivity()  {
             } else if (!properPassword) {
                 Toast.makeText(this, "Password should contain at least 1 number, 1 uppercase and one lowercase character", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
-            } else if (binding.etRegPassword.text.toString().trim() != binding.etRegConfirmPassword.text.toString().trim()) {
+            } else if (RegPassword.toString().trim() != RegConfirmPassword.toString().trim()) {
                 Toast.makeText(this, "The two password fields should match", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
             } else {
-                val user = User(0, binding.etRegFirstName.text.toString(),
-                    binding.etRegLastName.text.toString(),
-                    binding.etRegUsername.text.toString(),
-                    binding.etRegEmail.text.toString(),
-                    binding.etRegPassword.text.toString())
+
+                val user = User(0, RegFirstName.toString(),
+                    RegLastName.toString(),
+                    RegUsername.toString(),
+                    RegEmail.toString(),
+                    RegPassword.toString())
                 mUserViewModel.addUser(user)
                 clearAllFields()
                 Intent(this, LoginActivity::class.java).also{
@@ -78,4 +87,6 @@ class RegistrationActivity : AppCompatActivity()  {
         }
     }
 }
+
+//if (binding.etRegUsername.text.toString().trim() in mUserViewModel.)
 
