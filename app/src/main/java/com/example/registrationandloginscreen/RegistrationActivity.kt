@@ -40,11 +40,14 @@ class RegistrationActivity : AppCompatActivity()  {
                 if (lowCaseLetter && uppCaseLetter && number == true) break@loop
             }
 
+
+            //Used to clear password fields if the password on the two fields did not match, or if if did not contain all the required characters
             fun clearPasswordFields() {
                 RegPassword.clear()
                 RegConfirmPassword.clear()
             }
 
+            //Used to clear all fields if registration was successful
             fun clearAllFields() {
                 RegPassword.clear()
                 RegEmail.clear()
@@ -53,6 +56,7 @@ class RegistrationActivity : AppCompatActivity()  {
                 RegFirstName.clear()
                 RegLastName.clear()
             }
+
 
             val properPassword = lowCaseLetter && uppCaseLetter && number
             val emptyFields = (RegPassword.toString() == "" ||
