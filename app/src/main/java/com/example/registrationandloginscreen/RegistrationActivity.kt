@@ -1,31 +1,29 @@
 package com.example.registrationandloginscreen
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Dao
 import com.example.registrationandloginscreen.databinding.RegistrationScreenBinding
-import com.example.registrationandloginscreen.db.User
-import com.example.registrationandloginscreen.db.UserViewModel
+import com.example.registrationandloginscreen.db.*
 
 class RegistrationActivity : AppCompatActivity()  {
 
     private lateinit var binding: RegistrationScreenBinding
     private lateinit var mUserViewModel: UserViewModel
+    private lateinit var mUsersRepository: UsersRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = RegistrationScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnRegRegister.setOnClickListener {
+        val dao = UsersDatabase.getDatabase(this).usersDao()
 
-            var RegFirstName = binding.etRegFirstName.text
-            var RegLastName = binding.etRegLastName.text
-            var RegUsername = binding.etRegUsername.text
-            var RegEmail = binding.etRegEmail.text
-            var RegPassword = binding.etRegPassword.text
-            var RegConfirmPassword = binding.etRegConfirmPassword.text
+
+        binding.btnRegRegister.setOnClickListener {
 
             //Checks if the password has at least 1 number, 1 uppercase & 1 lowercase letter
             var lowCaseLetter = false
@@ -43,28 +41,28 @@ class RegistrationActivity : AppCompatActivity()  {
 
             //Used to clear password fields if the password on the two fields did not match, or if if did not contain all the required characters
             fun clearPasswordFields() {
-                RegPassword.clear()
-                RegConfirmPassword.clear()
+                binding.etRegPassword.text.clear()
+                binding.etRegConfirmPassword.text.clear()
             }
 
             //Used to clear all fields if registration was successful
             fun clearAllFields() {
-                RegPassword.clear()
-                RegEmail.clear()
-                RegConfirmPassword.clear()
-                RegUsername.clear()
-                RegFirstName.clear()
-                RegLastName.clear()
+                binding.etRegPassword.text.clear()
+                binding.etRegEmail.text.clear()
+                binding.etRegConfirmPassword.text.clear()
+                binding.etRegUsername.text.clear()
+                binding.etRegFirstName.text.clear()
+                binding.etRegLastName.text.clear()
             }
 
 
             val properPassword = lowCaseLetter && uppCaseLetter && number
-            val emptyFields = (RegPassword.toString() == "" ||
-                    RegEmail.toString() == "" ||
-                    RegConfirmPassword.toString() == "" ||
-                    RegUsername.toString() == "" ||
-                    RegFirstName.toString() == "" ||
-                    RegLastName.toString() == "")
+            val emptyFields = (binding.etRegPassword.text.toString() == "" ||
+                    binding.etRegEmail.text.toString() == "" ||
+                    binding.etRegConfirmPassword.text.toString() == "" ||
+                    binding.etRegUsername.text.toString() == "" ||
+                    binding.etRegFirstName.text.toString() == "" ||
+                    binding.etRegLastName.text.toString() == "")
 
 
             if (emptyFields) {
@@ -72,25 +70,36 @@ class RegistrationActivity : AppCompatActivity()  {
             } else if (!properPassword) {
                 Toast.makeText(this, "Password should contain at least 1 number, 1 uppercase and one lowercase character", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
-            } else if (RegPassword.toString().trim() != RegConfirmPassword.toString().trim()) {
+            } else if (binding.etRegPassword.text.toString().trim() != binding.etRegConfirmPassword.text.toString().trim()) {
                 Toast.makeText(this, "The two password fields should match", Toast.LENGTH_LONG).show()
                 clearPasswordFields()
             } else {
-
-                val user = User(0, RegFirstName.toString(),
-                    RegLastName.toString(),
-                    RegUsername.toString(),
-                    RegEmail.toString(),
-                    RegPassword.toString())
-                mUserViewModel.addUser(user)
-                clearAllFields()
-                Intent(this, LoginActivity::class.java).also{
-                    startActivity(it)
+                if (mUsersRepository.readSomeData.contains(binding.etRegUsername.toString())) {
+                    Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT)
+                } else {
+                    if (dao.readUsernnamesUsername(binding.etRegUsername.text.toString()).isNullOrEmpty()) {
+                        val user = User(
+                            0, binding.etRegFirstName.text.toString(),
+                            binding.etRegLastName.text.toString(),
+                            binding.etRegUsername.text.toString(),
+                            binding.etRegEmail.text.toString(),
+                            binding.etRegPassword.text.toString()
+                        )
+                        mUserViewModel.addUser(user)
+                        clearAllFields()
+                        Intent(this, LoginActivity::class.java).also {
+                            startActivity(it)
+                        }
+                    } else {
+                        Toast.makeText(this, "USER ALREADY EXISTS", Toast.LENGTH_SHORT)
+                    }
                 }
             }
         }
     }
 }
+
+//mUsersRepository.getUsername(binding.etRegUsername.text.toString())
 
 //if (binding.etRegUsername.text.toString().trim() in mUserViewModel.)
 
