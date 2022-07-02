@@ -1,7 +1,6 @@
 package com.example.registrationandloginscreen.db
 
 import androidx.lifecycle.LiveData
-import android.util.Log
 
 class UsersRepository(private val usersDao: UsersDao) {
 
@@ -13,14 +12,9 @@ class UsersRepository(private val usersDao: UsersDao) {
     fun addUser(user: User){
         usersDao.insertUser(user)
     }
-/*
-    fun getUsername(username: String): User? {
-        return readAllData.readUsernnames(username)
-    }
 
-    fun getUsername(username: String): User? {
-        return readAllData.readUsernnames(username)
-    } */
+    fun userExists(user: String): LiveData<List<User>> {
+        return usersDao.readUsernnames(user)
+    }
 }
 
-//user.username

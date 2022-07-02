@@ -16,8 +16,9 @@ interface UsersDao {
     fun readAllData(): LiveData<List<User>>
 
     @Query("Select * from users_table Where username = :username")
-    fun readUsernnames(username: String): User?
+    fun readUsernnames(username: String): LiveData<List<User>>
 
+    /*
     @Query("Select username from users_table Where username = :username")
     fun readUsernnamesUsername(username: String): String?
 
@@ -25,6 +26,6 @@ interface UsersDao {
     fun readEmails(email: String): User?
 
     @Query("Select * from users_table Where password = :password")
-    fun readPasswords(password: String): User?
+    fun readPasswords(password: String): User? */
 
 }
