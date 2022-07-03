@@ -1,29 +1,28 @@
-package com.example.registrationandloginscreen.db
+package com.example.registrationandloginscreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.registrationandloginscreen.db.User
+import com.example.registrationandloginscreen.db.UsersDatabase
+import com.example.registrationandloginscreen.db.UsersRepository
 
-class UserViewModel(application: Application): AndroidViewModel(application) {
+class MyViewModel(application: Application) : AndroidViewModel(application) {
 
-    //private val readAllData: LiveData<List<User>>
-    private val repository: UsersRepository
+    val data: LiveData<List<User>>
+    val repository: UsersRepository
+        get() {
+            TODO()
+        }
 
     init {
-        val usersDao = UsersDatabase.getDatabase(application).usersDao()
-        repository = UsersRepository(usersDao)
-        //readAllData = repository.readAllData
+        val dao = UsersDatabase.getDatabase(application).usersDao()
+        val repository = UsersRepository(dao)
+        data = repository.readData
     }
 
-    fun addUser(
-        user: User,
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addUser(user)
-        }
-    }
+    fun addUser(user: User) = repository.addUser(user)
 
+
+    fun userExists(user: String): LiveData<List<User>> = repository.userExists(user)
 }

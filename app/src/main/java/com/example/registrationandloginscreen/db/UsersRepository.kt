@@ -16,5 +16,9 @@ class UsersRepository(private val usersDao: UsersDao) {
     fun userExists(user: String): LiveData<List<User>> {
         return usersDao.readUsernnames(user)
     }
+
+    fun registerUser(user : User) : Long {
+        return usersDao.registerUser(user)
+    }
 }
 
