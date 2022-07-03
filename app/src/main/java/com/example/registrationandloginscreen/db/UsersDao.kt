@@ -18,6 +18,9 @@ interface UsersDao {
     @Query("Select * from users_table Where username = :username")
     fun readUsernnames(username: String): LiveData<List<User>>
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun registerUser(user : User) : Long
+
     /*
     @Query("Select username from users_table Where username = :username")
     fun readUsernnamesUsername(username: String): String?

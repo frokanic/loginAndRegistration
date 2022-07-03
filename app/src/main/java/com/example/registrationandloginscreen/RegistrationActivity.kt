@@ -5,20 +5,23 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.registrationandloginscreen.databinding.LoginScreenBinding
 import com.example.registrationandloginscreen.databinding.RegistrationScreenBinding
 import com.example.registrationandloginscreen.db.User
-import com.example.registrationandloginscreen.db.UserViewModel
 import com.example.registrationandloginscreen.db.UsersDatabase
 
 class RegistrationActivity : AppCompatActivity()  {
 
     private lateinit var binding: RegistrationScreenBinding
-    private lateinit var mUserViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = RegistrationScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         val dao = UsersDatabase.getDatabase(this).usersDao()
         val viewModel: MyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
@@ -62,23 +65,34 @@ class RegistrationActivity : AppCompatActivity()  {
             if (emptyFields) {
                 Toast.makeText(this, "Al fields should be filled", Toast.LENGTH_LONG).show()
             } else if (!properPassword) {
-                Toast.makeText(this, "Password should contain at least 1 number, 1 uppercase and one lowercase character", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Password should contain at least 1 number, 1 uppercase and one lowercase character",
+                    Toast.LENGTH_LONG
+                ).show()
                 clearPasswordFields()
-            } else if (binding.etRegPassword.text.toString().trim() != binding.etRegConfirmPassword.text.toString().trim()) {
-                Toast.makeText(this, "The two password fields should match", Toast.LENGTH_LONG).show()
+            } else if (binding.etRegPassword.text.toString()
+                    .trim() != binding.etRegConfirmPassword.text.toString().trim()
+            ) {
+                Toast.makeText(this, "The two password fields should match", Toast.LENGTH_LONG)
+                    .show()
                 clearPasswordFields()
             } else {
-                if (viewModel.userExists(binding.etRegUsername.text.toString()).toString().isEmpty()) {
-                    val user = User(0, binding.etRegFirstName.text.toString(),
-                    binding.etRegLastName.text.toString(),
-                    binding.etRegUsername.text.toString(),
-                    binding.etRegEmail.text.toString(),
-                    binding.etRegPassword.text.toString())
-                mUserViewModel.addUser(user)
-                clearAllFields()
-                Intent(this, LoginActivity::class.java).also {
-                    startActivity(it)
-                }
+                if (viewModel.userExists(binding.etRegUsername.text.toString()).value.isNullOrEmpty()) {
+                    val user = User(
+                        0, binding.etRegFirstName.text.toString(),
+                        binding.etRegLastName.text.toString(),
+                        binding.etRegUsername.text.toString(),
+                        binding.etRegEmail.text.toString(),
+                        binding.etRegPassword.text.toString()
+                    )
+                    viewModel.addUser(user)
+                    clearAllFields()
+                    Toast.makeText(this, "Acount created successfully", Toast.LENGTH_SHORT)
+                    /*Intent(this, LoginActivity::class.java).also {
+                        startActivity(it)
+                    } */
+
                 } else {
                     Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT)
                 }
@@ -87,5 +101,4 @@ class RegistrationActivity : AppCompatActivity()  {
     }
 }
 
-//binding.etRegUsername.text.toString()
 
